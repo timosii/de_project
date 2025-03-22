@@ -227,6 +227,21 @@ files = [
 ]
 
 [[package]]
+name = "dbt"
+version = "1.0.0.38.33"
+description = "The dbt Cloud CLI - an ELT tool for running SQL transformations and data models in dbt Cloud. For more documentation on these commands, visit: docs.getdbt.com"
+optional = false
+python-versions = ">=3.8"
+groups = ["main"]
+markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
+files = [
+    {file = "dbt-1.0.0.38.33.tar.gz", hash = "sha256:cdc05d0244b643c9572f4e1e2cba8bce4387ed0abc4c23c34ea1cb1f54749096"},
+]
+
+[package.dependencies]
+setuptools = ">=61.2"
+
+[[package]]
 name = "dlt"
 version = "1.8.1"
 description = "dlt is an open-source python-first scalable data loading library that does not require any backend to run."
@@ -1688,4 +1703,4 @@ files = [
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10, <3.14"
-content-hash = "b9849632fde56b9a46cea159ee12db6954889d432606354d6dcfe83d60d834d0"
+content-hash = "512e7260a66563233d7a77a185e672e1be58bdc535f48eb150ec17c61fbcc830"
