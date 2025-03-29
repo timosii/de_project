@@ -1,0 +1,22 @@
+version: 2
+
+sources:
+  - name: staging
+    database: "{{ env_var('DBT_DATABASE', 'breast_cancer') }}"
+    schema: "{{ env_var('DBT_SCHEMA', 'public') }}"
+      # loaded_at_field: record_loaded_at
+    tables:
+      - name: breast_cancer
+
+models:
+  - name: alive_t_stage_distrib
+    description: >
+      Distribution by stage among living patients
+
+    columns:
+      - name: t_stage
+        data_type: string
+
+      - name: pats_count
+        data_type: int64
+        description: "count of patients"

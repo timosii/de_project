@@ -1,18 +1,35 @@
 volumes:
   zoomcamp-data:
     driver: local
+  superset-data:
 
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file: .env
+    ports:
+      - "8000:8000"
+    depends_on:
+      postgres_zoomcamp:
+        condition: service_healthy
+
   postgres_zoomcamp:
     image: postgres
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
       POSTGRES_DB: breast_cancer
     ports:
       - "5432:5432"
     volumes:
       - zoomcamp-data:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -d $${DB_PASSWORD} -U $${DB_USERNAME}" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pgadmin:
     image: dpage/pgadmin4
@@ -24,3 +41,16 @@ services:
     depends_on:
       postgres_zoomcamp:
         condition: service_started
+
+  superset:
+    image: apache/superset:2.1.0
+    ports:
+      - "8088:8088"
+    environment:
+      - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
+      - DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres_zoomcamp:5432/breast_cancer
+    volumes:
+      - superset-data:/app/superset_home
+    depends_on:
+      - postgres_zoomcamp
+    restart: unless-stopped
