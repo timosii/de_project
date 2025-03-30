@@ -5,7 +5,7 @@ with source_data as (
 )
 
 select
-    {{ generate_uuid() }} as patient_id,
+    distinct {{ generate_deterministic_uuid(source('raw', 'breast_cancer')) }} as patient_id,
     source_data.*,
     current_timestamp as load_ts
 from source_data

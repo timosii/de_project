@@ -2,6 +2,7 @@ volumes:
   zoomcamp-data:
     driver: local
   superset-data:
+  superset-init:
 
 services:
   app:
@@ -17,10 +18,11 @@ services:
 
   postgres_zoomcamp:
     image: postgres
+    env_file: .env
     environment:
       POSTGRES_USER: ${DB_USERNAME}
       POSTGRES_PASSWORD: ${DB_PASSWORD}
-      POSTGRES_DB: breast_cancer
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     volumes:
@@ -30,7 +32,7 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-
+      
   pgadmin:
     image: dpage/pgadmin4
     environment:
@@ -46,11 +48,11 @@ services:
     image: apache/superset:2.1.0
     ports:
       - "8088:8088"
-    environment:
-      - SUPERSET_SECRET_KEY=${SUPERSET_SECRET_KEY}
-      - DATABASE_URL=postgresql://${DB_USERNAME}:${DB_PASSWORD}@postgres_zoomcamp:5432/breast_cancer
+    env_file: .env
     volumes:
       - superset-data:/app/superset_home
+      - ./superset_init:/app/superset_init 
     depends_on:
       - postgres_zoomcamp
     restart: unless-stopped
+    command: ["sh", "-c", "superset fab create-admin --username $$SUPERSET_ADMIN_USERNAME --firstname $$SUPERSET_ADMIN_FIRST_NAME --lastname $$SUPERSET_ADMIN_LAST_NAME --email $$SUPERSET_ADMIN_EMAIL --password $$SUPERSET_ADMIN_PASSWORD && superset db upgrade && superset init && superset shell < /app/superset_init/create_db.py && superset import-dashboards -p /app/superset_init/dashboard.zip && /usr/bin/run-server.sh"]

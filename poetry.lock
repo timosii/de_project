@@ -2563,6 +2563,18 @@ dev = ["build", "hatch"]
 doc = ["sphinx"]
 
 [[package]]
+name = "superset"
+version = "0.30.1"
+description = "Superset has moved to apache-superset, as of 0.34.0 onwards, please pip install apache-superset"
+optional = false
+python-versions = "~=3.6"
+groups = ["main"]
+markers = "python_version <= \"3.11\" or python_version >= \"3.12\""
+files = [
+    {file = "superset-0.30.1.tar.gz", hash = "sha256:b2507d78f57193e8e629110f11d6f8f326a7313f0cea912f637821a8be24d7ea"},
+]
+
+[[package]]
 name = "tenacity"
 version = "9.0.0"
 description = "Retry code until it succeeds"
@@ -2730,4 +2742,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.10, <3.14"
-content-hash = "85aa1fe69dcdbe942eea2ad27f7d9f9c41b089668983ab7c1ad4569f3c62b020"
+content-hash = "1f164fc547ac6e0da1919154f2cc2fe97b0ec456de8146a2aa6570d9741485c0"

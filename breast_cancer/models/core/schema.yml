@@ -11,3 +11,9 @@ models:
   - name: processed_data
     description: >
       Data with load_time and unique id
+    columns:
+      - name: patient_id
+        description: Primary key for this table, generated with a uuid of all columns
+        tests:
+          - unique
+          - not_null

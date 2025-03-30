@@ -10,7 +10,8 @@ FROM python:3.12
 WORKDIR /code
 
 COPY --from=requirements-stage /tmp/requirements.txt /code/requirements.txt
-RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
+
+RUN pip install --upgrade pip && pip install --no-cache-dir --upgrade -r /code/requirements.txt
 
 COPY ./breast_cancer /code/breast_cancer
 COPY ./.dbt /code/.dbt

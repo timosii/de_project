@@ -4,7 +4,7 @@ breast_cancer:
     dev:
       type: postgres
       host: "{{ env_var('HOST')}}"
-      port: 5432
+      port: "{{ env_var('PORT') | as_number }}"
       user: "{{ env_var('DB_USERNAME')}}"
       password: "{{ env_var('DB_PASSWORD')}}"
       dbname: "{{ env_var('DB_NAME')}}"
