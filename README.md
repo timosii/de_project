@@ -102,7 +102,7 @@ make build
 ## Uninstall
 - `make remove` - use for remove volumes
 - `make remove-images` - for remove all non-official project images
-- `rm -rf /de_project` - delete project folder
+- `rm -rf de_project/` - delete project folder
 
 
 ## 🎉 Enjoy!
