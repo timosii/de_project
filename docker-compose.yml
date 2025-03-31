@@ -1,5 +1,5 @@
 volumes:
-  airflow-db:
+  airflow-db-data:
   zoomcamp-data:
     driver: local
   superset-data:
@@ -10,6 +10,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      target: app
     env_file: .env
     ports:
       - "8000:8000"
@@ -18,7 +19,7 @@ services:
         condition: service_healthy
 
   postgres_zoomcamp:
-    image: postgres
+    image: postgres:15-alpine
     env_file: .env
     environment:
       POSTGRES_USER: ${DB_USERNAME}
@@ -36,9 +37,7 @@ services:
       
   pgadmin:
     image: dpage/pgadmin4
-    environment:
-      - PGADMIN_DEFAULT_EMAIL=admin@admin.com
-      - PGADMIN_DEFAULT_PASSWORD=root
+    env_file: .env
     ports:
       - "8085:80"
     depends_on:
@@ -58,22 +57,51 @@ services:
     restart: unless-stopped
     command: ["sh", "-c", "superset fab create-admin --username $$SUPERSET_ADMIN_USERNAME --firstname $$SUPERSET_ADMIN_FIRST_NAME --lastname $$SUPERSET_ADMIN_LAST_NAME --email $$SUPERSET_ADMIN_EMAIL --password $$SUPERSET_ADMIN_PASSWORD && superset db upgrade && superset init && superset shell < /app/superset_init/create_db.py && superset import-dashboards -p /app/superset_init/dashboard.zip && /usr/bin/run-server.sh"]
 
-  airflow-init:
-    image: apache/airflow:2.8.1
-    env_file: .env
-    volumes:
-      - airflow-db:/opt/airflow
-    command: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com"
-    depends_on:
-      - postgres_zoomcamp
 
-  airflow-webserver:
-    image: apache/airflow:2.8.1
-    env_file: .env
+  postgres_airflow: 
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: airflow
+      POSTGRES_PASSWORD: airflow
+      POSTGRES_DB: airflow
     volumes:
-      - airflow-db:/opt/airflow
+      - airflow-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U airflow -d airflow"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  airflow-init:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: airflow
+    env_file: .env
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres_airflow:5432/airflow
+      - PYTHONPATH=/opt/airflow:/opt/airflow/dags:/app
+    depends_on:
+      postgres_airflow:
+        condition: service_healthy
+    command: >
+      bash -c "
+      airflow db init &&
+      airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com
+      "
+  airflow-webserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: airflow
+    env_file: .env
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres_airflow:5432/airflow
+      - PYTHONPATH=/opt/airflow:/opt/airflow/dags
+    volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
+      - ./app:/opt/airflow/dags/app
     ports:
       - "8080:8080"
     depends_on:
@@ -82,11 +110,17 @@ services:
     command: webserver
 
   airflow-scheduler:
-    image: apache/airflow:2.8.1
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: airflow
     env_file: .env
+    environment:
+      - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres_airflow:5432/airflow
+      - PYTHONPATH=/opt/airflow:/opt/airflow/dags
     volumes:
-      - airflow-db:/opt/airflow
       - ./airflow/dags:/opt/airflow/dags
+      - ./app:/opt/airflow/dags/app
     depends_on:
       - airflow-init
     command: scheduler

@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 FILEPATH = rf'https://data.poltekkes-smg.ac.id/dataset/7627060d-81f1-4393-9ec0-c49740efbf6a/resource/c759b693-ac63-431b-aca8-10bee206188d/download/archive-1.zip'
 
-def ingest_data():
+def data_ingest():
     load_dotenv()
     os.environ['DESTINATION__POSTGRES__CREDENTIALS__USERNAME'] = os.environ.get('DB_USERNAME')
     os.environ['DESTINATION__POSTGRES__CREDENTIALS__PASSWORD'] = os.environ.get('DB_PASSWORD')
@@ -29,4 +29,4 @@ def ingest_data():
         )
 
 if __name__ == '__main__':
-    ingest_data()
+    data_ingest()
