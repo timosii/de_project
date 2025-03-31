@@ -38,7 +38,14 @@ cp .env_example .env
 # Start services
 make up
 ```
-Use `make stop` to stop all services while preserving data, or `make remove` for a complete cleanup.
+
+#### Additional commands:
+```bash
+# Stop all services while preserving data
+make stop
+# Rebuild containers after code/Dockerfile changes  
+make build
+```
 
 ## Database Structure
 
@@ -91,6 +98,12 @@ Use `make stop` to stop all services while preserving data, or `make remove` for
 - Add **Airflow DAGs** to `airflow/dags/`
 - Add some **scripts** for automatization to `app/`
 - Add **dbt models** to `breast_cancer/models/`
+
+## Uninstall
+- `make remove` - use for remove volumes
+- `make remove-images` - for remove all non-official project images
+- `rm -rf /de_project` - delete project folder
+
 
 ## 🎉 Enjoy!
 Thank you for your time! For questions or contributions, please [open an issue on GitHub](https://github.com/timosii/de_project/issues)
