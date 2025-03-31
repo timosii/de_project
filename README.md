@@ -40,6 +40,23 @@ make up
 ```
 Use `make stop` to stop all services while preserving data, or `make remove` for a complete cleanup.
 
+## Database Structure
+
+### Raw Data
+- **Schema**: `public`
+- **Table**: `breast_cancer`
+  - Contains original source data in raw format
+
+### Processed Data  
+- **Schema**: `dwh`  
+- **Table**: `processed_data`  
+  - `patient_id`: Unique UUID identifier  
+  - `load_ts`: Timestamp of data processing  
+  - Automated data quality tests including:  
+    - Null checks  
+    - Uniqueness validation  
+    - Data type verification  
+
 ## Access Services
 
 ### 🚀 Airflow
@@ -66,32 +83,14 @@ Use `make stop` to stop all services while preserving data, or `make remove` for
 ### 📈 Superset
 - **URL**: [http://localhost:8088](http://localhost:8088)
 - **Credentials**: `admin`/`admin`
-- **Dashboard**: [http://localhost:8088/superset/dashboard/1](http://localhost:8088/superset/dashboard/1)
+- **Sample Dashboard**: [http://localhost:8088/superset/dashboard/1](http://localhost:8088/superset/dashboard/1)
 
 ![base_dashboard](/materials/base_dashboard.jpg)
-
-
-## Database Structure
-
-### Raw Data
-- **Schema**: `public`
-- **Table**: `breast_cancer`
-  - Contains original source data in raw format
-
-### Processed Data  
-- **Schema**: `dwh`  
-- **Table**: `processed_data`  
-  - `patient_id`: Unique UUID identifier  
-  - `load_ts`: Timestamp of data processing  
-  - Automated data quality tests including:  
-    - Null checks  
-    - Uniqueness validation  
-    - Data type verification  
 
 ## Development
 - Add **Airflow DAGs** to `airflow/dags/`
 - Add some **scripts** for automatization to `app/`
 - Add **dbt models** to `breast_cancer/models/`
 
-🎉 Enjoy!
+## 🎉 Enjoy!
 Thank you for your time! For questions or contributions, please [open an issue on GitHub](https://github.com/timosii/de_project/issues)
