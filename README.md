@@ -85,7 +85,7 @@ Use `make stop` to stop all services while preserving data, or `make remove` for
 - **Credentials**: `admin`/`admin`
 - **Sample Dashboard**: [http://localhost:8088/superset/dashboard/1](http://localhost:8088/superset/dashboard/1)
 
-![base_dashboard](/materials/base_dashboard.jpg)
+![base_dashboard](/assets/base_dashboard.jpg)
 
 ## Development
 - Add **Airflow DAGs** to `airflow/dags/`

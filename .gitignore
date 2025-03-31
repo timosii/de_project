@@ -1,4 +1,56 @@
+# Общие исключения
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+*.swp
+*.bak
+~*
+.DS_Store
+.idea/
+.vscode/
 .env
-.venv
-logs
+.env.local
+# Логи
+logs/*
+!logs/.gitkeep
+
+# Airflow
+airflow/logs/*
+airflow/plugins/__pycache__/
+
+# DBT
+breast_cancer/target/
+breast_cancer/dbt_packages/
+breast_cancer/logs/*
+breast_cancer/.dbt/*
+
+# Python
+*.egg-info/
+dist/
+build/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Контейнеры
+*.db
+*.sqlite
+
+# Superset
+superset_init/__pycache__/
+
+# Системные файлы
+*.orig
+*.rej
 *.log
+*.pot
+
+# Временные файлы
+*.tmp
+*.temp
+
+# IDE специфичные
+*.iml
+*.ipr
+*.iws
