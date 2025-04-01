@@ -18,6 +18,7 @@ An end-to-end data pipeline for processing and analyzing breast cancer patient d
 ✔️ Interactive dashboards in Superset  
 ✔️ Scheduled pipeline execution  
 ✔️ Local development environment  
+✔️ One-command deployment 🚀
 
 ## Quick Start
 
@@ -39,6 +40,7 @@ cp .env_example .env
 make up
 ```
 And that's it!
+
 #### Additional commands:
 ```bash
 # Stop all services while preserving data
@@ -46,24 +48,6 @@ make stop
 # Rebuild containers after code/Dockerfile changes  
 make build
 ```
-
-## Database Structure
-
-### Raw Data
-- **Schema**: `public`
-- **Table**: `breast_cancer`
-  - Contains original source data in raw format
-
-### Processed Data  
-- **Schema**: `dwh`  
-- **Table**: `processed_data`  
-  - `patient_id`: Unique UUID identifier  
-  - `load_ts`: Timestamp of data processing  
-  - Automated data quality tests including:  
-    - Null checks  
-    - Uniqueness validation  
-    - Data type verification  
-
 ## Access Services
 
 ### 🚀 Airflow
@@ -94,7 +78,24 @@ make build
 
 ![base_dashboard](/assets/base_dashboard.jpg)
 
-## Development
+## Database Structure
+
+### Raw Data
+- **Schema**: `public`
+- **Table**: `breast_cancer`
+  - Contains original source data in raw format
+
+### Processed Data  
+- **Schema**: `dwh`  
+- **Table**: `processed_data`  
+  - `patient_id`: Unique UUID identifier  
+  - `load_ts`: Timestamp of data processing  
+  - Automated data quality tests including:  
+    - Null checks  
+    - Uniqueness validation  
+    - Data type verification  
+
+## Development  
 - Add **Airflow DAGs** to `airflow/dags/`
 - Add some **scripts** for automatization to `app/`
 - Add **dbt models** to `breast_cancer/models/`
@@ -103,7 +104,6 @@ make build
 - `make remove` - use for remove volumes
 - `make remove-images` - for remove all non-official project images
 - `rm -rf de_project/` - delete project folder
-
 
 ## 🎉 Enjoy!
 Thank you for your time! For questions or contributions, please [open an issue on GitHub](https://github.com/timosii/de_project/issues)
