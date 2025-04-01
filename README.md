@@ -38,7 +38,7 @@ cp .env_example .env
 # Start services
 make up
 ```
-
+And that's it!
 #### Additional commands:
 ```bash
 # Stop all services while preserving data
