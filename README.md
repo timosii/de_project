@@ -2,7 +2,7 @@
 
 An end-to-end data pipeline for processing and analyzing breast cancer patient data using modern data tools.
 
-![pipiline](/assets/pipeline.jpg)
+![pipeline](/assets/pipeline.jpg)
 
 ## Tech Stack
 
