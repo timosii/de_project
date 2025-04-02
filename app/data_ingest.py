@@ -30,3 +30,4 @@ def data_ingest():
 
 if __name__ == '__main__':
     data_ingest()
+    

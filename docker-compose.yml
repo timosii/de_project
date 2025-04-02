@@ -57,7 +57,6 @@ services:
     restart: unless-stopped
     command: ["sh", "-c", "superset fab create-admin --username $$SUPERSET_ADMIN_USERNAME --firstname $$SUPERSET_ADMIN_FIRST_NAME --lastname $$SUPERSET_ADMIN_LAST_NAME --email $$SUPERSET_ADMIN_EMAIL --password $$SUPERSET_ADMIN_PASSWORD && superset db upgrade && superset init && superset shell < /app/superset_init/create_db.py && superset import-dashboards -p /app/superset_init/dashboard.zip && /usr/bin/run-server.sh"]
 
-
   postgres_airflow: 
     image: postgres:15-alpine
     environment:
@@ -86,9 +85,10 @@ services:
         condition: service_healthy
     command: >
       bash -c "
-      airflow db init && sleep 10 &&
+      airflow db init && sleep 5 &&
       airflow users create --username admin --password admin --firstname Admin --lastname Admin --role Admin --email admin@example.com
       "
+
   airflow-webserver:
     build:
       context: .
@@ -98,17 +98,17 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres_airflow:5432/airflow
       - PYTHONPATH=/opt/airflow:/opt/airflow/dags
+      - PATH=/home/airflow/.local/bin:/usr/local/bin:/usr/bin:/bin
     volumes:
       - ./airflow/dags:/opt/airflow/dags
       - ./airflow/plugins:/opt/airflow/plugins
-      - ./app:/opt/airflow/dags/app
     ports:
       - "8080:8080"
     depends_on:
       - airflow-init
     restart: unless-stopped
     command: webserver
-
+    
   airflow-scheduler:
     build:
       context: .
@@ -118,9 +118,10 @@ services:
     environment:
       - AIRFLOW__DATABASE__SQL_ALCHEMY_CONN=postgresql+psycopg2://airflow:airflow@postgres_airflow:5432/airflow
       - PYTHONPATH=/opt/airflow:/opt/airflow/dags
+      - PATH=/home/airflow/.local/bin:/usr/local/bin:/usr/bin:/bin
     volumes:
       - ./airflow/dags:/opt/airflow/dags
-      - ./app:/opt/airflow/dags/app
+      - ./airflow/plugins:/opt/airflow/plugins
     depends_on:
       - airflow-init
     restart: unless-stopped
