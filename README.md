@@ -4,6 +4,20 @@ An end-to-end data pipeline for processing and analyzing breast cancer patient d
 
 ![pipeline](/assets/pipeline.jpg)
 
+## Table of Contents
+1. [Problem & Solution](#problem--solution)
+2. [Tech Stack](#tech-stack)
+3. [Features](#features)
+4. [Quick Start](#quick-start)
+   - [Prerequisites](#prerequisites)
+   - [Setup Steps](#steps)
+5. [Access Services](#access-services)
+6. [Database Structure](#database-structure)
+   - [Raw Data](#raw-data)
+   - [Processed Data](#processed-data)
+7. [Development](#development)
+8. [Uninstall](#uninstall)
+
 ## Problem & Solution
 ### Outdated medical data practices:
 - Paper records → slow retrieval, risk of loss
