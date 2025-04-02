@@ -32,7 +32,8 @@ An automated batch pipeline that:
 - Loads data hourly
 - Validates quality
 - Updates dashboards
-Result:
+
+#### Result:  
 Always up-to-date, reliable data.
 
 ## Tech Stack
@@ -58,7 +59,7 @@ Always up-to-date, reliable data.
 ### Prerequisites
 - Docker 20.10.13+
 - 2GB RAM, 8GB disk space
-- Linux/WSL (Windows not fully tested)
+- Linux/WSL (Windows/Mac not fully tested)
 
 ### Steps
 ```bash
