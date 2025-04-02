@@ -29,7 +29,7 @@ An end-to-end data pipeline for processing and analyzing breast cancer patient d
 
 ### Solution:
 An automated batch pipeline that:
-- Loads data hourly
+- Loads data periodically
 - Validates quality
 - Updates dashboards
 
