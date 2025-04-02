@@ -4,6 +4,23 @@ An end-to-end data pipeline for processing and analyzing breast cancer patient d
 
 ![pipeline](/assets/pipeline.jpg)
 
+## Problem & Solution
+### Outdated medical data practices:
+- Paper records → slow retrieval, risk of loss
+- Manual processing → errors and delays
+- Isolated Excel files → version chaos
+- Disconnected systems → lost or duplicate records
+- No data validation → "garbage in, garbage out" analytics
+- Monthly or weekly updates → decisions made on stale data
+
+### Solution:
+An automated batch pipeline that:
+- Loads data hourly
+- Validates quality
+- Updates dashboards
+Result:
+Always up-to-date, reliable data.
+
 ## Tech Stack
 
 - **Data Ingestion**: [dlt](https://dlthub.com/)
